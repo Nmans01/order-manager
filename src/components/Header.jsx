@@ -1,7 +1,11 @@
+import ButtonBar from "./ButtonBar";
+import Icon from "./Icon"
+import ButtonHeader from "./ButtonHeader";
+
 function Search() {
   return (
-    <div>
-      <label for="search"><img src="./img/search.png" alt="" /></label>
+    <div class="flex flex-row gap-2 items-center">
+      <label for="search"><Icon imgSrc="./img/search.png" /></label>
       <input type="text" id="search" placeholder="Search..." />
     </div>
   );
@@ -9,8 +13,8 @@ function Search() {
 
 function NavButton(props) {
   return (
-    <a href={props.href}>
-      <img src={props.imgSrc} alt="" />
+    <a href={props.href} class="flex flex-row gap-2 items-center">
+      <Icon imgSrc={props.imgSrc} />
       {props.text}
     </a>
   );
@@ -18,14 +22,18 @@ function NavButton(props) {
 
 export default function Header() {
   return (
-    <header class="flex flex-row justify-between p-2 h-50">
-      <h1 class=" h-min">OrderProPlus</h1>
-      <nav class="flex flex-row gap-2">
-        <Search/>
-        <NavButton href="#" imgSrc="./img/plus.png" text="New..." />
-        <NavButton href="#" imgSrc="./img/plus.png" text="Alerts" />
-        <NavButton href="#" imgSrc="./img/plus.png" text="Account" />
-      </nav>
+    <header class="p-2 h-50">
+      <ButtonHeader>
+        <h1 class=" h-min">OrderProPlus</h1>
+        <nav>
+          <ButtonBar>
+            <Search />
+            <NavButton href="#" imgSrc="./img/plus.png" text="New..." />
+            <NavButton href="#" imgSrc="./img/bell.png" text="Alerts" />
+            <NavButton href="#" imgSrc="./img/account.png" text="Account" />
+          </ButtonBar>
+        </nav>
+      </ButtonHeader>
     </header>
   );
 }

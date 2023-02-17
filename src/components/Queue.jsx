@@ -1,37 +1,34 @@
-export default function Queue() {
+import Icon from "./Icon"
+import ButtonBar from "./ButtonBar";
+import ButtonHeader from "./ButtonHeader";
 
-    return (<div id="queueContainer">
-    <h3>Queue</h3>
-    <div id="viewContainer">
-      <div id="view">
+function QueueItem(props){
+  return(
+    <div class="border-slate-300 border-2 rounded-sm">
+      test
+    </div>
+  );
+}
+
+export default function Queue() {
+  return (
+    <section>
+      <h3>Queue</h3>
+      <ButtonHeader>
         <select name="Select a view" id="">
           <option value="Test">Test</option>
         </select>
-        <a href="#"><img src="./img/pencil.png" alt="Edit" /></a>
-        <a href="#"><img src="./img/filter.png" alt="Filter" /></a>
-        <div class="vertSpacer"></div>
-        <a href="#"><img src="./img/calendar.png" alt="Calendar" /></a>
+        <ButtonBar>
+          <a href="#"><Icon imgSrc="./img/pencil.png" alt="Edit" /></a>
+          <a href="#"><Icon imgSrc="./img/filter.png" alt="Filter" /></a>
+          <div class="vertSpacer"></div>
+        </ButtonBar>
+      </ButtonHeader>
+      <div id="queue" class="flex flex-col gap-1">
+        <For each={Array.apply(null, Array(10))}>{(i) =>
+            <QueueItem>Test</QueueItem>
+        }</For>
       </div>
-    </div>
-    <div id="queueBottomGradient"></div>
-    <div id="queue">
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-      <div>Test</div>
-    </div>
-  </div>
-    );
+    </section>
+  );
 }
