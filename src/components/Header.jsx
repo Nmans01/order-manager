@@ -1,18 +1,31 @@
-export default function Header() {
+function Search() {
+  return (
+    <div>
+      <label for="search"><img src="./img/search.png" alt="" /></label>
+      <input type="text" id="search" placeholder="Search..." />
+    </div>
+  );
+}
 
-    return (
-        <header>
-          <h1 class="gradientText"><em>OrderProPlus</em></h1>
-          <nav>
-            <div class="hideForMobile">
-              <label for="search"><img src="./img/search.png" alt="Search" /></label>
-              <input type="text" id="search" placeholder="Search..." />
-            </div>
-            <a href="#" class="mobileOnly"><img src="./img/search.png" alt="Search" /> Search</a>
-            <a href="#"><img src="./img/plus.png" alt="New" /> New...</a>
-            <a href="#"><img src="./img/bell.png" alt="Alerts" /> Alerts</a>
-            <a href="#"><img src="./img/account.png" alt="Account" /> Account</a>
-          </nav>
-        </header>
-    );
+function NavButton(props) {
+  return (
+    <a href={props.href}>
+      <img src={props.imgSrc} alt="" />
+      {props.text}
+    </a>
+  );
+}
+
+export default function Header() {
+  return (
+    <header class="flex flex-row justify-between p-2 h-50">
+      <h1 class=" h-min">OrderProPlus</h1>
+      <nav class="flex flex-row gap-2">
+        <Search/>
+        <NavButton href="#" imgSrc="./img/plus.png" text="New..." />
+        <NavButton href="#" imgSrc="./img/plus.png" text="Alerts" />
+        <NavButton href="#" imgSrc="./img/plus.png" text="Account" />
+      </nav>
+    </header>
+  );
 }
