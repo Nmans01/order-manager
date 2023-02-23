@@ -1,7 +1,7 @@
-import styles from './App.module.css';
-import Header from './components/Header';
-import Queue from './components/Queue';
-import Calendar from './components/Calendar';
+import { lazy } from "solid-js";
+const Header    = lazy(() => import('./components/Header'));
+const Queue     = lazy(() => import('./components/Queue'));
+const Calendar  = lazy(() => import('./components/Calendar'));
 
 export default function App() {
   return (
