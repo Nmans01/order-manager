@@ -4,7 +4,7 @@ import ButtonHeader from "./ButtonHeader";
 
 function QueueItem(props){
   return(
-    <div class="border-slate-300 border-2 rounded-sm">
+    <div class="border-slate-300 border-2 rounded-sm hover:border-white">
       test
     </div>
   );
