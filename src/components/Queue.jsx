@@ -1,31 +1,39 @@
+import {A} from "@solidjs/router";
 import Icon from "./Icon"
 import ButtonBar from "./ButtonBar";
 import ButtonHeader from "./ButtonHeader";
 
 function QueueItem(props){
   return(
-    <div class="border-slate-300 border-2 border-opacity-10 rounded-sm hover:border-white p-1">
-      test
-    </div>
+    <A href="#" class="border-slate-300 border-2 border-opacity-0 rounded-sm hover:border-white active:brightness-75 px-1 flex flex-row items-center gap-3">
+      <div class="rounded-full w-2 h-2 bg-green-300"></div>
+      <div>
+        <div class="bg-white text-black rounded-sm inline-block px-1 text-xs">Order #44444</div><span class="text-xs"> - Business Company LLC</span><br/>
+        Business Suite       
+      </div>
+    </A>
   );
 }
 
 export default function Queue() {
   return (
     <section class="order-slate-300 border-2 rounded-sm p-1 bg-gray-700">
-      <h3 class="mb-1">Queue</h3>
-      <ButtonHeader>
-        <select name="Select a view" id="" class="text-black px-1 py-0.5 rounded-sm">
-          <option value="Test">Test</option>
-        </select>
-        <ButtonBar>
-          <a href="#"><Icon imgSrc="./img/pencil.png" alt="Edit" /></a>
-          <a href="#"><Icon imgSrc="./img/filter.png" alt="Filter" /></a>
-        </ButtonBar>
-      </ButtonHeader>
-      <div id="queue" class="flex flex-col gap-1 pt-2">
-        <For each={Array.apply(null, Array(10))}>{(i) =>
-            <QueueItem>Test</QueueItem>
+      <div class="px-1">
+        <h3 class="my-1">Queue</h3>
+        <ButtonHeader>
+          <select name="Select a view" id="" class="text-black px-1 py-0.5 rounded-sm">
+            <option value="Test">Test</option>
+          </select>
+          <ButtonBar>
+            <button class="hover:brightness-90 active:brightness-75"><Icon imgSrc="./img/pencil.png" alt="Edit" /></button>
+            <button class="hover:brightness-90 active:brightness-75"><Icon imgSrc="./img/filter.png" alt="Filter" /></button>
+          </ButtonBar>
+        </ButtonHeader>
+      </div>
+
+      <div class="flex flex-col gap-1 mt-2 overflow-scroll h-[calc(100vh-8.5rem)] pr-2.5">
+        <For each={Array.apply(null, Array(20))}>{(i) =>
+            <QueueItem/>
         }</For>
       </div>
     </section>

@@ -25,7 +25,7 @@ export default function Header() {
   return (
     <header class="p-3 h-50">
       <ButtonHeader>
-        <A href="/"><h1 class=" h-min">OrderProPlus</h1></A>
+        <A href="/"><h1 class="h-min text-xl font-semibold italic">OrderProPlus</h1></A>
         <nav>
           <ButtonBar>
             <Search />
