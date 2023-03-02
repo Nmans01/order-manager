@@ -7,12 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+model User {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
   email   String   @unique
-  name    String?
+  name    String
   address Address?
-  orders  order[]
+  orders  Order[]
 }
 
 // Address is an embedded document
@@ -23,17 +23,50 @@ type Address {
   zip    String
 }
 
-model order {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  customer user @relation(fields: [customerId], references: [id])
-  customerId String @db.ObjectId
-  status Status @default(QUOTE)
+model Order {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  customerId      String  @db.ObjectId
+  statusId        String  @db.ObjectId
+  shippingAddress Address
+  items           Item[]
+
+  customer User   @relation(fields: [customerId], references: [id])
+  status   Status @relation(fields: [statusId], references: [id])
 }
 
-enum Status {
-  QUOTE
-  PREPRINT
-  PRODUCTION
-  REAY_FOR_PICKUP
-  DELIVERY
+model Status {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  displayColor String       @default("white")
+  orders       Order[]
+  viewStatuses ViewStatus[]
+}
+
+// Many-to-many relationship requires intermediate model
+model ViewStatus {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  viewId   String @db.ObjectId
+  statusId String @db.ObjectId
+
+  view   View   @relation(fields: [viewId], references: [id])
+  status Status @relation(fields: [statusId], references: [id])
+}
+
+model View {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  viewStatuses ViewStatus[]
+}
+
+// Orders have items, items are instances of jobs
+model Item {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  orderId String @db.ObjectId
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+// 
+model Job {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 }
