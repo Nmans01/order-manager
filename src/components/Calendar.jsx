@@ -6,6 +6,7 @@ import ButtonHeader from "./ButtonHeader";
 
 export default function Calendar() {
     let   today = new Date();
+
     const [monthOffset, setMonthOffset] = createSignal(0);
     const incMonth = ()=>{setMonthOffset(monthOffset()+1)};
     const decMonth = ()=>{setMonthOffset(monthOffset()-1)};
@@ -13,14 +14,14 @@ export default function Calendar() {
     const currentMonth = () => addMonths(today,monthOffset());
 
     const calendarGetDate = (i)=>{
-        let firstOfMonth = setDate(currentMonth(),0);
+        let firstOfMonth = setDate(currentMonth(),1);
         let dayOnFirstOfMonth = getDay(firstOfMonth);
 
-        let date = addDays(firstOfMonth,i-dayOnFirstOfMonth);
+        let date = addDays(firstOfMonth,i-dayOnFirstOfMonth-1);
 
         return {
             dateNo: format(date,'d'),
-            inMonth: isSameMonth(today, date),
+            inMonth: isSameMonth(firstOfMonth, date),
             isToday: isSameDay(today,date)
         };
     };
@@ -41,7 +42,7 @@ export default function Calendar() {
                     <button onClick={incMonth}>Next</button>
                 </ButtonBar>
             </div>
-            <div id="calendarBody" class="grid grid-flow-row grid-cols-7 grid-rows-[min-content_repeat(5,1fr)] text-center gap-1">
+            <div id="calendarBody" class="grid grid-flow-row grid-cols-7 grid-rows-[min-content_repeat(6,1fr)] text-center gap-1">
                 <div>Sunday</div>
                 <div>Monday</div>
                 <div>Tuesday</div>
@@ -49,8 +50,8 @@ export default function Calendar() {
                 <div>Thursday</div>
                 <div>Friday</div>
                 <div>Saturday</div>
-                <For each={Array(35).fill(1).map((x, y) => x + y)}>{(i) =>
-                    <div class="border-slate-300 border-2 border-opacity-10 rounded-sm">{calendarGetDate(i)['dateNo']}</div>
+                <For each={Array(42).fill(1).map((x, y) => x + y)}>{(i) =>
+                    <div class={"border-slate-300 border-2 border-opacity-10 rounded-sm "+(calendarGetDate(i)['inMonth']?"":"opacity-30")}>{calendarGetDate(i)['dateNo']}</div>
                 }</For>
             </div>
         </section>
