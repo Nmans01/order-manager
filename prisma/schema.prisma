@@ -27,4 +27,13 @@ model order {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   customer user @relation(fields: [customerId], references: [id])
   customerId String @db.ObjectId
+  status Status @default(QUOTE)
+}
+
+enum Status {
+  QUOTE
+  PREPRINT
+  PRODUCTION
+  REAY_FOR_PICKUP
+  DELIVERY
 }

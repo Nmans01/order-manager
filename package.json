@@ -20,6 +20,7 @@
   "dependencies": {
     "@prisma/client": "^4.10.1",
     "@solidjs/router": "^0.7.0",
+    "date-fns": "^2.29.3",
     "mongodb": "^5.0.1",
     "prisma": "^4.10.1",
     "solid-js": "^1.6.11"
