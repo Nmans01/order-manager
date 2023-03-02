@@ -51,7 +51,7 @@ export default function Calendar() {
                 <div>Friday</div>
                 <div>Saturday</div>
                 <For each={Array(42).fill(1).map((x, y) => x + y)}>{(i) =>
-                    <div class={"border-slate-300 border-2 border-opacity-10 rounded-sm "+(calendarGetDate(i)['inMonth']?"":"opacity-30")}>{calendarGetDate(i)['dateNo']}</div>
+                    <div class={"border-slate-300 border-2 border-opacity-10 rounded-sm "+(calendarGetDate(i)['inMonth']?"":"opacity-30")+(calendarGetDate(i)['isToday']?"border-opacity-40":"")}>{calendarGetDate(i)['dateNo']}</div>
                 }</For>
             </div>
         </section>
