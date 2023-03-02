@@ -8,10 +8,10 @@ export default function Calendar() {
     let   today = new Date();
 
     const [monthOffset, setMonthOffset] = createSignal(0);
-    const incMonth = ()=>{setMonthOffset(monthOffset()+1)};
-    const decMonth = ()=>{setMonthOffset(monthOffset()-1)};
-    const resetMonth = ()=>{setMonthOffset(0)};
-    const currentMonth = () => addMonths(today,monthOffset());
+    const incMonth      = () => {setMonthOffset(monthOffset()+1)};
+    const decMonth      = () => {setMonthOffset(monthOffset()-1)};
+    const resetMonth    = () => {setMonthOffset(0)};
+    const currentMonth  = () => addMonths(today,monthOffset());
 
     const calendarGetDate = (i)=>{
         let firstOfMonth = setDate(currentMonth(),1);
@@ -38,7 +38,7 @@ export default function Calendar() {
                     <div class="w-px bg-cyan-50"></div>
                     */}
                     <button onClick={decMonth}>Prev</button>
-                    <button onClick={resetMonth}><Icon imgSrc="./img/target.png" alt="" /></button>
+                    <button onClick={resetMonth}>Today</button>
                     <button onClick={incMonth}>Next</button>
                 </ButtonBar>
             </div>
