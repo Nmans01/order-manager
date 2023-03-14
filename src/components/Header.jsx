@@ -31,6 +31,7 @@ export default function Header() {
             <Search />
             <NavButton href="/orders/create" imgSrc="./img/plus.png" text="New..." />
             <NavButton href="#" imgSrc="./img/bell.png" text="Alerts" />
+            <NavButton href="/conf" imgSrc="./img/pencil.png" text="Config" />
             <NavButton href="#" imgSrc="./img/account.png" text="Account" />
           </ButtonBar>
         </nav>

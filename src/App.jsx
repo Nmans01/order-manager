@@ -3,6 +3,7 @@ import { lazy } from "solid-js";
 const Header    = lazy(() => import('./components/Header'));
 const Overview  = lazy(() => import('./pages/Overview'));
 const CreateOrder  = lazy(() => import('./pages/CreateOrder'));
+const Config  = lazy(() => import('./pages/Config'));
 
 export default function App() {
   return (
@@ -12,7 +13,7 @@ export default function App() {
         <Route path="/" component={Overview}/>
         <Route path="/orders/create" component={CreateOrder}/>
         <Route path="/orders/id:" component={<></>}/>
-        <Route path="/conf" component={<></>}/>
+        <Route path="/conf" component={Config}/>
       </Routes>
     </div>
   );
