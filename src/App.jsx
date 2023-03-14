@@ -12,6 +12,7 @@ export default function App() {
         <Route path="/" component={Overview}/>
         <Route path="/orders/create" component={CreateOrder}/>
         <Route path="/orders/id:" component={<></>}/>
+        <Route path="/conf" component={<></>}/>
       </Routes>
     </div>
   );

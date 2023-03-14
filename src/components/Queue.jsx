@@ -13,7 +13,7 @@ function QueueItem(props){
   }
 
   return(
-    <A href="#" class="border-slate-300 border-2 border-opacity-0 rounded-sm hover:border-white active:brightness-75 px-1 flex flex-row items-center gap-3">
+    <A href={"/orders/"+order.orderNumber} class="border-slate-300 border-2 border-opacity-0 rounded-sm hover:border-white active:brightness-75 px-1 flex flex-row items-center gap-3">
       <div class={"rounded-full w-2 h-2"} style={{"background-color":order.statusColor}}></div>
       <div>
         <div class="bg-white text-black rounded-sm inline-block px-1 text-xs">Order #{order.orderNumber}</div><span class="text-xs"> - {order.custName}</span><br/>
