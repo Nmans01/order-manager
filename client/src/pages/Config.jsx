@@ -1,11 +1,7 @@
 import { For } from "solid-js";
-import { getMany } from "../scripts/crud";
 
 // Most of this data should actually be non mutable so CRUD isnt the best term here
 function CRUDTable(props) {
-
-    // get table from db
-    console.log(getMany("Users"));
 
     return (
         <section class="border-slate-300 border-2 rounded-sm bg-gray-700 max-w-6xl p-2">
