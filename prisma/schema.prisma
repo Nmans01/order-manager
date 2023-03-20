@@ -7,19 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Empoyees
 model User {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  email           String   @unique
-  name            String
-  billingAddress  Address?
-  shippingAddress Address? // Default address, orders can still have custom addresses specified
-  orders          Order[]
-  defaultViewId   String?  @db.ObjectId
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  email         String  @unique
+  name          String
+  admin         Boolean
+  defaultViewId String? @db.ObjectId
 
   defaultView View? @relation(fields: [defaultViewId], references: [id])
 }
 
-// Address is an embedded document
+// Customers
+model Client {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  email           String
+  phoneNumber     String
+  billingAddress  Address?
+  shippingAddress Address? // Default address, orders can still have custom addresses specified
+  orders          Order[]
+}
+
 type Address {
   street String
   city   String
@@ -28,13 +37,15 @@ type Address {
 }
 
 model Order {
-  id              String  @id @default(auto()) @map("_id") @db.ObjectId
-  customerId      String  @db.ObjectId
-  statusId        String  @db.ObjectId
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  customerId      String       @db.ObjectId
+  statusId        String       @db.ObjectId
+  title           String
   shippingAddress Address
   items           Item[]
+  customItem      CustomItem[]
 
-  customer User   @relation(fields: [customerId], references: [id])
+  customer Client @relation(fields: [customerId], references: [id])
   status   Status @relation(fields: [statusId], references: [id])
 }
 
@@ -46,7 +57,7 @@ model Status {
   viewStatuses ViewStatus[]
 }
 
-// Many-to-many relationship requires intermediate model
+// Many-to-many relationship requires intermediate model ViewStatus
 model ViewStatus {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   viewId   String @db.ObjectId
@@ -73,6 +84,14 @@ model Item {
 
   order Order @relation(fields: [orderId], references: [id])
   job   Job   @relation(fields: [jobId], references: [id])
+}
+
+// For unique or not-currently-registered jobs
+type CustomItem {
+  name     String
+  quantity String
+  notes    String
+  price    Float
 }
 
 // NOTE Making this project general use would mean making these columns modifiable within the site to suit the needs of a particular company.
