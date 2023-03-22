@@ -1,9 +1,9 @@
 import { Routes, Route } from "@solidjs/router";
 import { lazy } from "solid-js";
-const Header    = lazy(() => import('./components/Header'));
-const Overview  = lazy(() => import('./pages/Overview'));
-const CreateOrder  = lazy(() => import('./pages/CreateOrder'));
-const Config  = lazy(() => import('./pages/Config'));
+const Header      = lazy(() => import('./components/Header'));
+const Overview    = lazy(() => import('./pages/Overview'));
+const CreateOrder = lazy(() => import('./pages/CreateOrder'));
+const Config      = lazy(() => import('./pages/Config'));
 
 export default function App() {
   return (
