@@ -2,18 +2,32 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  // tableOnly = true
+  output = "./erd.png"
+}
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
+// Models with this type should not be deleted, but rather disabled if not in use.
+// Not sure how helpful it would be to include a disabledAt time, so I left it out for now.
+type CRUDInfo {
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
 // Empoyees
 model User {
-  id            String  @id @default(auto()) @map("_id") @db.ObjectId
-  email         String  @unique
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  email         String   @unique
   name          String
-  admin         Boolean
-  defaultViewId String? @db.ObjectId
+  admin         Boolean  @default(true)
+  defaultViewId String?  @db.ObjectId
+  crudInfo      CRUDInfo
 
   defaultView View? @relation(fields: [defaultViewId], references: [id])
 }
@@ -22,11 +36,13 @@ model User {
 model Client {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   name            String
-  email           String
+  email           String   @unique
   phoneNumber     String
+  wholesale       Boolean
   billingAddress  Address?
   shippingAddress Address? // Default address, orders can still have custom addresses specified
   orders          Order[]
+  createdAt       DateTime @default(now())
 }
 
 type Address {
@@ -39,22 +55,35 @@ type Address {
 model Order {
   id              String       @id @default(auto()) @map("_id") @db.ObjectId
   customerId      String       @db.ObjectId
-  statusId        String       @db.ObjectId
+  statusEntryId   String       @db.ObjectId
   title           String
   shippingAddress Address
+  paid            Boolean
   items           Item[]
   customItem      CustomItem[]
+  createdAt       DateTime     @default(now())
 
-  customer Client @relation(fields: [customerId], references: [id])
-  status   Status @relation(fields: [statusId], references: [id])
+  customer    Client      @relation(fields: [customerId], references: [id])
+  statusEntry StatusEntry @relation(fields: [statusEntryId], references: [id])
+}
+
+// Used to maintain a log of statuses for an order, rather than just rewriting one status for the order
+model StatusEntry {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  statusId  String   @db.ObjectId
+  orders    Order[]
+  createdAt DateTime @default(now())
+
+  status Status @relation(fields: [statusId], references: [id])
 }
 
 model Status {
-  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
   name         String
-  displayColor String       @default("white")
-  orders       Order[]
+  displayColor String        @default("white")
+  entries      StatusEntry[]
   viewStatuses ViewStatus[]
+  crudInfo     CRUDInfo
 }
 
 // Many-to-many relationship requires intermediate model ViewStatus
@@ -67,6 +96,7 @@ model ViewStatus {
   status Status @relation(fields: [statusId], references: [id])
 }
 
+// These can be deleted.
 model View {
   id           String       @id @default(auto()) @map("_id") @db.ObjectId
   name         String
@@ -97,12 +127,13 @@ type CustomItem {
 // NOTE Making this project general use would mean making these columns modifiable within the site to suit the needs of a particular company.
 // For now, I'm just hardcoding it to meet the needs of a print shop,
 model Job {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   jobName    String
   material   String
   size       String
   color      String
   turnaround Int
+  crudInfo   CRUDInfo
 
   items  Item[]
   prices Price[]
@@ -115,7 +146,7 @@ model Price {
   cost      Float // Material cost
   mSRP      Float // Manufacturer-suggested retail price
   wholesale Float // Wholesale price
-  entryDate DateTime @default(now())
+  createdAt DateTime @default(now())
 
   job Job @relation(fields: [jobId], references: [id])
 }
