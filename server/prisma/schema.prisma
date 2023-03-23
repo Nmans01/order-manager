@@ -5,7 +5,7 @@ generator client {
 generator erd {
   provider = "prisma-erd-generator"
   // tableOnly = true
-  output = "./erd.png"
+  output   = "./erd.png"
 }
 
 datasource db {
@@ -54,6 +54,9 @@ type Address {
 
 model Order {
   id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  // Orders get a human-readable Order Number, to make it easier to search for and identify them
+  // I'm holding off on adding other autoincrementing Ints for now, as I'm not sure where they are necessary besides for orders.
+  orderNo         Int          @unique // adding middleware for this in the API
   customerId      String       @db.ObjectId
   statusEntryId   String       @db.ObjectId
   title           String
@@ -66,6 +69,8 @@ model Order {
   customer    Client      @relation(fields: [customerId], references: [id])
   statusEntry StatusEntry @relation(fields: [statusEntryId], references: [id])
 }
+
+// Inside the `@@beforeCreate` block
 
 // Used to maintain a log of statuses for an order, rather than just rewriting one status for the order
 model StatusEntry {
