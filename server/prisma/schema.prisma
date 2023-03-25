@@ -25,7 +25,7 @@ model User {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   email         String   @unique
   name          String
-  admin         Boolean  @default(true)
+  admin         Boolean  @default(false)
   defaultViewId String?  @db.ObjectId
   crudInfo      CRUDInfo
 
