@@ -55,8 +55,10 @@ function Config() {
             <section class="border-slate-300 border-2 rounded-sm bg-gray-700 max-w-6xl p-2 flex flex-col gap-2">
                 <h1>Config</h1>
                 <CRUDTable table="Users" />
+                {/**
                 <CRUDTable table="Jobs" />
                 <CRUDTable table="Prices" />
+                 */}
             </section>
         </main>
     );
