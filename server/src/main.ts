@@ -6,7 +6,7 @@ async function bootstrap() {
 
   // Set up CORS
   app.enableCors({
-    origin: 'http://localhost:3001', // replace with the URL of your SolidJS app
+    origin: 'http://localhost:3001',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
