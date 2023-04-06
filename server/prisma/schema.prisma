@@ -56,18 +56,18 @@ model Order {
   id              String       @id @default(auto()) @map("_id") @db.ObjectId
   // Orders get a human-readable Order Number, to make it easier to search for and identify them
   // I'm holding off on adding other autoincrementing Ints for now, as I'm not sure where they are necessary besides for orders.
-  orderNo         Int          @unique // adding middleware for this in the API
+  orderNo         Int          @unique // TODO add middleware for this in the API
   customerId      String       @db.ObjectId
-  statusEntryId   String       @db.ObjectId
+  statusEntryId   String?      @db.ObjectId // TODO add middleware to initialize a status of Quote by default
   title           String
-  shippingAddress Address
+  shippingAddress Address?
   paid            Boolean
   items           Item[]
   customItem      CustomItem[]
   createdAt       DateTime     @default(now())
 
-  customer    Client      @relation(fields: [customerId], references: [id])
-  statusEntry StatusEntry @relation(fields: [statusEntryId], references: [id])
+  customer    Client       @relation(fields: [customerId], references: [id])
+  statusEntry StatusEntry? @relation(fields: [statusEntryId], references: [id])
 }
 
 // Inside the `@@beforeCreate` block
