@@ -2,13 +2,18 @@ import { createEffect, createSignal, For, onMount } from "solid-js";
 import { flattenJson } from "../utils/flattenJSON";
 import { getRows } from "../utils/getRows";
 import { convertCamelCaseToWords } from "../utils/convertCamelCaseToWords";
+import Full from "../templates/Full";
 
 // Most of this data should actually be non mutable so CRUD isnt the best term here
 function CRUDTable(props) {
 
     const [rows, setRows] = createSignal([]);
-    const headers = () => {
-        return Object.keys(rows()[0]==null?{}:rows()[0]).map(convertCamelCaseToWords);
+    const headers = () => Object.keys(rows()[0] == null ? {} : rows()[0])
+        .slice(1, -1);
+    const selected = (i) => {
+        const h = headers();
+        const r = rows();
+        return h.map((e, j) => [e, r[i][e]])
     };
 
     onMount(async () => {
@@ -22,22 +27,37 @@ function CRUDTable(props) {
     return (
         <section class="border-slate-300 border-2 rounded-sm bg-gray-700 max-w-6xl p-2">
             <h2>{props.table}</h2>
-            <table class="text-slate-900 border-separate border-spacing-1 text-left">
-                <thead>
-                    <tr class="border-black border-1">
-                        {
-                            headers().slice(1,-1).map((key) => <th class="border-2 border-slate-300 px-2 w-28 bg-slate-50 min-w-fit">{String(key)}</th>)
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows().map((row) => (
-                        <tr>
-                            {Object.values(row).slice(1,-1).map((v) => <td class="border-2 border-slate-300 px-2 bg-slate-50">{String(v)}</td>)}
+            <div class="grid grid-cols-[3fr_1fr] gap-2">
+                <table class="text-slate-900 border-separate border-spacing-1 text-left">
+                    <thead>
+                        <tr class="border-black border-1">
+                            {
+                                headers()
+                                    .map(convertCamelCaseToWords).map((key) => <th class="border-2 border-slate-300 px-2 w-28 bg-slate-50 min-w-fit">{String(key)}</th>)
+                            }
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {rows().map((row) => (
+                            <tr>
+                                {Object.values(row).slice(1, -1).map((v) => <td class="border-2 border-slate-300 px-2 bg-slate-50">{String(v)}</td>)}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <div class="border-slate-300 border-2 rounded-sm p-2">
+                    <h3>Selected:</h3>
+                    <div>
+                        {selected(1).map((s) =>
+                            <div>
+                                {s[0]}
+                                {s[1] != null ? s[1].toString() : 'null'}
+                            </div>
+                        )}
+                    </div>
+                    <button>Disable</button>
+                </div>
+            </div>
         </section>
     );
 }
@@ -51,16 +71,16 @@ function Config() {
     // Figure out how to factor Jobs' "metajson" into  the Jobs table.
     // Allow entries to be edited right in the table, and make a Save button appear next to rows that have been edited.
     return (
-        <main class="px-2 grid grid-flow-col grid-cols-[1fr]">
+        <Full>
             <section class="border-slate-300 border-2 rounded-sm bg-gray-700 max-w-6xl p-2 flex flex-col gap-2">
                 <h1>Config</h1>
                 <CRUDTable table="Users" />
                 {/**
-                <CRUDTable table="Jobs" />
-                <CRUDTable table="Prices" />
-                 */}
+            <CRUDTable table="Jobs" />
+            <CRUDTable table="Prices" />
+             */}
             </section>
-        </main>
+        </Full>
     );
 }
 export default Config;

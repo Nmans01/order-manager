@@ -1,6 +1,7 @@
 import { createResource, createSignal, lazy, onMount } from "solid-js";
 import { flattenJson } from "../utils/flattenJSON";
 import { BASE_URL } from "../utils/getRows";
+import ColumnAndPane from "../templates/ColumnAndPane";
 const Queue = lazy(() => import('../components/Queue'));
 const Calendar = lazy(() => import('../components/Calendar'));
 
@@ -18,24 +19,25 @@ const getViews = async () => {
 function Overview() {
 
     const [view,setView] = createSignal();
+    const [orders,setOrders] = createSignal([]);
     // const [orders] = createResource(view, getOrders);    
     // const [views] = createResource(view, getViews);  
 
-    let orders;
     onMount(async () => {
         const data = await getOrders(); // fetch rows from API
 
         const out = data.map(flattenJson);
 
-        orders=out;
-        console.log(orders);
+        setOrders(out);
+        console.log("OnMount: orders: "+orders());
     });
 
     return (
-        <main class="grid grid-flow-col grid-cols-[20rem_1fr] gap-2 p-2 pt-0">
-            <Queue orders={orders} view={view} setView={setView}/>
-            <Calendar orders={orders}/>
-        </main>
+        <ColumnAndPane>
+            <Queue orders={orders()} view={view} setView={setView}/>
+            {/*console.log(orders())*/}
+            <Calendar orders={orders()}/>
+        </ColumnAndPane>
     );
 }
 export default Overview;
