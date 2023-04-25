@@ -38,10 +38,10 @@ export default function Calendar(props) {
                 let ordersByDate = {};
                 console.log("Orders bb: " + JSON.stringify(orders));
                 orders.map((it) => {
-                    if (ordersByDate[it.createdAt.slice(0, 10)] == null)
-                        ordersByDate[it.createdAt.slice(0, 10)] = [];
+                    if (ordersByDate[it.dueAt.slice(0, 10)] == null)
+                        ordersByDate[it.dueAt.slice(0, 10)] = [];
 
-                    ordersByDate[it.createdAt.slice(0, 10)].push(it);
+                    ordersByDate[it.dueAt.slice(0, 10)].push(it);
                 });
                 console.log("Orders by date: " + JSON.stringify(ordersByDate));
                 return ordersByDate;
@@ -76,12 +76,12 @@ export default function Calendar(props) {
                 <div>Friday</div>
                 <div>Saturday</div>
                 <For each={Array(42).fill(1).map((x, y) => x + y)}>{(i) =>
-                    <div class={"border-slate-300 border-2 border-opacity-10 rounded-sm flex flex-col " + (calendarGetDate(i)['inMonth'] ? "" : "opacity-30") + (calendarGetDate(i)['isToday'] ? "border-opacity-40" : "")}>
+                    <div class={"border-slate-300 border-2 border-opacity-10 rounded-sm flex flex-col items-center " + (calendarGetDate(i)['inMonth'] ? "" : "opacity-30") + (calendarGetDate(i)['isToday'] ? "border-opacity-40" : "")}>
                         {calendarGetDate(i)['dateNo']}
                             {
                                 ((orders) => orders
                                     ? orders.map((order) =>
-                                        <A href={"/orders/"+String(order.orderNo)} class="m-1 rounded-sm text-slate-700" style={{background: order.displayColor}}>
+                                        <A href={"/orders/"+String(order.orderNo)} class="m-1 rounded-sm text-slate-700 w-min px-2" style={{background: order.displayColor}}>
                                             {"#" + String(order.orderNo).padStart(5, 0)}
                                         </A>
                                     )
